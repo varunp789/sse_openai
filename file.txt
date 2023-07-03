@@ -1,0 +1,19 @@
+Certainly! Let's go through the code step by step to understand how it works:
+
+1. We start by importing the `express` module, which is a popular web application framework for Node.js. We also create an instance of the `express` application.
+
+2. We define a route for handling SSE requests. In this example, the route is `/events`, and it handles GET requests. When a client connects to this route, the server sends SSE events to that client.
+
+3. Within the route handler, we set the necessary headers for SSE. These headers include `Content-Type: text/event-stream`, `Cache-Control: no-cache`, `Connection: keep-alive`, and `Access-Control-Allow-Origin: *`. These headers ensure that the response is treated as an SSE stream, not cached, and allows cross-origin requests.
+
+4. We send SSE headers to the client by writing an empty line (`res.write('\n')`). This informs the client that the connection has been established and prepares it to receive SSE events.
+
+5. We use `setInterval` to send SSE events at regular intervals. In this example, we send an event every second. The event data is a timestamp generated using `new Date().toISOString()`.
+
+6. We handle the case where the client closes the SSE connection by listening to the `close` event on the request object (`req.on('close', () => {})`). When the client closes the connection, we clear the interval to stop sending SSE events.
+
+7. Finally, we start the server by calling `app.listen(3000)`, which listens on port 3000. You can change the port number as per your requirements.
+
+When you run this code and make a GET request to `http://localhost:3000/events` (assuming the server is running on localhost with port 3000), the server establishes an SSE connection with the client. It sends SSE headers to the client and then starts sending SSE events at regular intervals. The client receives these events as a stream of responses, and each event is displayed in the response window of Postman or any other SSE client.
+
+This code provides a basic implementation of SSE in Node.js using the Express framework. You can customize and enhance it to suit your specific application needs, such as sending different data, handling different events, or implementing error handling.
